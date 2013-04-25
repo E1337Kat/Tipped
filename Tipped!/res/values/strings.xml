@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tipped!</string>
+    <string name="add">add</string><string name="add_button_description">Button for adding a new shift or new tip</string><string name="amount_tip">Tip Amount</string><string name="amount_total">Total Amount</string><string name="average">Average:</string><string name="bill_total">Bill: $</string><string name="cancel">Cancel</string><string name="checkNumber">"Check Number: "</string><string name="close_shift">Close Out the Shift</string><string name="confirm">OK</string><string name="date">date</string><string name="delete">Delete</string><string name="delete_message">Once deleted, this data cannot be recovered.</string><string name="delete_shifts">Delete All Shifts</string><string name="delete_tip">Delete Tip</string><string name="delete_title">Are You Sure?</string><string name="divider_description">divider separating shit and what not!</string><string name="done">Done</string><string name="edit">edit</string><string name="errorMissingText">error</string><string name="floatZero">0.00</string><string name="highest">Highest:</string><string name="img_button_description">An image button that does shit.</string><string name="lowest">Lowest:</string><string name="menu_settings">Settings</string><string name="missing_tip_message">You must provide a valid tip amount.</string><string name="missing_tip_title">No Input!</string><string name="static_add">Add</string><string name="static_options">Options</string><string name="static_shifts">Shifts</string>
+    
+    <string name="static_stats">Stats</string>
+    
+    <string name="static_tips">Tips</string>
+    
+    
+    
+    
+    
+    
+    <string name="tip_title">"Tips: "</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!--Depricated
+    <string name="confirm_close_dialog">Are you sure you want to close out this shift?</string>
+    <string name="confirm_close_cancel">Cancel</string>
+    -->
+    
+    
+    
+    
+    
+    
+    
+    <string name="total">Total: $</string>
+    
+    
+    
+    
+    
+    <string name="tip_total">tip: $</string><string name="zero">0</string>
+
+</resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainViewItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:id="@+id/newShiftDateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/newShiftTotalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    
+		<!--    
+		<Button
+        android:id="@+id/newEditShiftButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:text="@string/edit" />
+        -->
+
+    <ImageButton
+        android:id="@+id/newDeleteShiftButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:contentDescription="@string/img_button_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/delete_icon" />
+
+</LinearLayout>

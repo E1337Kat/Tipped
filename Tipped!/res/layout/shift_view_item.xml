@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shiftViewItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <TextView
+        android:id="@+id/newTipTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/newDateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:id="@+id/newDeleteTipButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:focusable="false"
+		android:focusableInTouchMode="false" 
+        android:contentDescription="@string/img_button_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/delete_icon" />
+
+</LinearLayout>
