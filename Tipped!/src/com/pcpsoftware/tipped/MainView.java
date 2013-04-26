@@ -45,7 +45,6 @@ public class MainView extends ListActivity {
 	long shift;
     ShiftListAdapter shiftAdapter;
 	
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
