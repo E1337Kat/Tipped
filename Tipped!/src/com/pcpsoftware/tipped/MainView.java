@@ -282,6 +282,7 @@ public class MainView extends ListActivity {
     		//new LoadShiftsTask().execute(view, context, cursor);
     		
     		long time = cursor.getLong(cursor.getColumnIndex("time"));
+//    		int type = cursor.getInt(cursor.getColumnIndex("shift_type"));
     		double shiftTotal = Tipped.getInstance().tipdb.getShiftTotal(cursor.getLong(cursor.getColumnIndex("_id")));
     		
     		Calendar calendar = Calendar.getInstance();
@@ -291,9 +292,26 @@ public class MainView extends ListActivity {
     		DateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
     		String dateString = formatter.format(calendar.getTime());
     		
+//    		String shiftTypeString;
+//    		switch (type) {
+//    		case 1:
+//    			shiftTypeString = "Breakfast";
+//    			break;
+//    		case 2:
+//    			shiftTypeString = "Lunch";
+//    			break;
+//    		case 3:
+//    			shiftTypeString = "Dinner";
+//    			break;
+//    		default:
+//    			shiftTypeString =  "";
+//    			break;
+//    		}
+    		
     		String amountString = "$ " + String.valueOf(shiftTotal);
     		
     		((TextView) view.findViewById(R.id.newShiftDateTextView)).setText(dateString);
+//    		((TextView) view.findViewById(R.id.newShiftTypeTextView)).setText(shiftTypeString);
     		((TextView) view.findViewById(R.id.newShiftTotalTextView)).setText(amountString);
     		
     		//ImageButton newDeleteButton = (ImageButton) view.findViewById(R.id.newDeleteShiftButton);

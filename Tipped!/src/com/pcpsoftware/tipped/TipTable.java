@@ -1,11 +1,17 @@
 package com.pcpsoftware.tipped;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
+
+import com.pcpsoftware.tipped.providers.*;
 
 public class TipTable
 {
 	//Declare fields to assemble database create string with
+//	public static final Uri CONTENT_URI = Uri.parse("content://"
+//            + TipsContentProvider.AUTHORITY + "/tips");
+//	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.pcpsw.tips";
 	public static final String TABLE_TIP = "tip"; //table name
 	public static final String COLUMN_ID = "_id"; //primary key
 	public static final String COLUMN_AMOUNT = "amount"; //tip amount: real (required)

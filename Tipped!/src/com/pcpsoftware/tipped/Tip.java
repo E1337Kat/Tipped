@@ -81,12 +81,12 @@ public class Tip {
 		this.percent = percent;
 	}
 	
-	public Timestamp getTime()
+	public Timestamp getTipTime()
 	{
 		return time;
 	}
 	
-	public void setTime(Timestamp time)
+	public void setTipTime(Timestamp time)
 	{
 		this.time = time;
 	}

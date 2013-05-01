@@ -5,24 +5,68 @@ import java.sql.Timestamp;
 import java.util.ArrayList; //for getAllTip() and getAllShift() methods
 import java.util.Date;
 import java.util.List; //likewise
+import java.util.HashMap;
+import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
 import android.util.Log;
 
-public class DatabaseConnector 
-{
-
+public class DatabaseConnector {
 	// database name
 	private static final String DATABASE_NAME = "tipped.db";
 	private static final int DATABASE_VERSION = 1; //named constant for database version
-
+	
+//	private static final String TAG = "TipsContentProvider";
+//	public static final String AUTHORITY = "com.pcpsoftware.tipped.TipsContentProvider";
+//	private static final String TIPS_TABLE_NAME = "Tips";
+//	private static final String SHIFTS_TABLE_NAME = "Shifts";
+//	private static final UriMatcher sUriMatcher;
+//	 
+//    private static final int TIPS = 1;
+// 
+//    private static final int TIPS_ID = 2;
+// 
+//    private static HashMap<String, String> notesProjectionMap;
+//	
 	private SQLiteDatabase database; //initializes database object
 	private DatabaseOpenHelper databaseOpenHelper; //creates a database helper object
+	
+	private class DatabaseOpenHelper extends SQLiteOpenHelper 
+	{
+		
+		// public constructor
+		public DatabaseOpenHelper(Context context, String name, int version)
+		{
+			super(context, name, null, version);
+		}	// end DatabaseOpenHelper constructor
+		
+		// creates table of data values when database is created
+		@Override
+		public void onCreate(SQLiteDatabase db)
+		{
+			// Enable foreign key constraints to link shift and tip tables
+			if(!db.isReadOnly())
+				db.execSQL("PRAGMA foreign_keys=ON;");
+			
+			ShiftTable.onCreate(db); //create shift table by calling shift table's onCreate
+			TipTable.onCreate(db); //create tip table
+		}	//end method onCreate
+		
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+		{
+			ShiftTable.onUpgrade(db,  oldVersion, newVersion); //call shift table's onUpgrade
+			TipTable.onUpgrade(db, oldVersion, newVersion); //call tip table's onUpgrade
+		}	// end method onUpgrade
+	}	// end class DatabaseOpenHelper
 	
 	// public constructor for DatabaseConnector
 	public DatabaseConnector(Context context) 
@@ -53,7 +97,7 @@ public class DatabaseConnector
 		newEntry.put("amount", tip.getAmount());
 		newEntry.put("total", tip.getTotal());
 		newEntry.put("percent", tip.getPercent());
-		newEntry.put("time",tip.getTime().getTime()); //.getNanos()SQLite doesn't have a timestamp type like SQL so convert to int
+		newEntry.put("time",tip.getTipTime().getTime()); //.getNanos()SQLite doesn't have a timestamp type like SQL so convert to int
 		newEntry.put("checknum",tip.getCheckNum());
 		newEntry.put("notes",tip.getNotes());
 		newEntry.put("shift_parent",tip.getShiftId()); //TODO: How do we really do this?
@@ -81,8 +125,9 @@ public class DatabaseConnector
 	{
 		ContentValues newEntry = new ContentValues();
 		newEntry.put("date", shift.getDate());
-		newEntry.put("time", shift.getTime().getTime()); 
+		newEntry.put("time", shift.getShiftTime().getTime()); 
 		newEntry.put("total",  shift.getTotal());
+		newEntry.put("shift_type", shift.getShiftType());
 		newEntry.put("notes",  shift.getNotes());	
 		
 		return database.insert("shift", null, newEntry);
@@ -197,33 +242,4 @@ public class DatabaseConnector
 		return total;
 	}
 	
-	private class DatabaseOpenHelper extends SQLiteOpenHelper 
-	{
-		
-		// public constructor
-		 //TODO: this constructor used to take a cursorfactory, do we need it?
-		public DatabaseOpenHelper(Context context, String name, int version)
-		{
-			super(context, name, null, version);
-		}	// end DatabaseOpenHelper constructor
-		
-		// creates table of data values when database is created
-		@Override
-		public void onCreate(SQLiteDatabase db)
-		{
-			// Enable foreign key constraints to link shift and tip tables
-			if(!db.isReadOnly())
-				db.execSQL("PRAGMA foreign_keys=ON;");
-			
-			ShiftTable.onCreate(db); //create shift table by calling shift table's onCreate
-			TipTable.onCreate(db); //create tip table
-		}	//end method onCreate
-		
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-		{
-			ShiftTable.onUpgrade(db,  oldVersion, newVersion); //call shift table's onUpgrade
-			TipTable.onUpgrade(db, oldVersion, newVersion); //call tip table's onUpgrade
-		}	// end method onUpgrade
-	}	// end class DatabaseOpenHelper
 }	// end class DatabaseConnector
