@@ -24,7 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+//import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
@@ -89,7 +89,7 @@ public class MainView extends FragmentActivity implements
         list.setOnItemClickListener(editShiftItemListener);
         list.setOnItemLongClickListener(longDeleteShiftItemListener);
         
-        fillData();
+        
         
         //Set listeners for buttons
         mainShiftsTab.setOnClickListener(mainShiftsTabListener);
@@ -98,6 +98,8 @@ public class MainView extends FragmentActivity implements
         addShiftButton.setOnClickListener(mainAddListener);
         
         //refreshGUI(null); // refresh the GUI
+        
+        fillData();
         
     }
     
@@ -293,7 +295,7 @@ public class MainView extends FragmentActivity implements
     
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    	shiftAdapter.swapCursor(data);
+//    	shiftAdapter.swapCursor(data);
     }
     
     @Override
