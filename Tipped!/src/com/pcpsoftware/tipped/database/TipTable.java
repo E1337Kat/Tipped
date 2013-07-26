@@ -1,10 +1,8 @@
-package com.pcpsoftware.tipped;
+package com.pcpsoftware.tipped.database;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
+//import android.net.Uri;
 import android.util.Log;
-
-import com.pcpsoftware.tipped.providers.*;
 
 public class TipTable
 {

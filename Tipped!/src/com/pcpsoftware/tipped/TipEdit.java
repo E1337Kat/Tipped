@@ -21,6 +21,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.LayoutInflater;
 import java.util.Date; //for timestamp
 import java.sql.Timestamp; //same as above
+
+import com.pcpsoftware.tipped.database.Tip;
+
 import android.util.Log;
 
 public class TipEdit extends Activity {

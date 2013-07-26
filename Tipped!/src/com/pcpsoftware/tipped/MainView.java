@@ -1,49 +1,56 @@
 package com.pcpsoftware.tipped;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.app.ListActivity;
+
 import android.app.AlertDialog;
+//import android.app.ListActivity;
+//import android.app.LoaderManager;
 import android.content.Context;
+//import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.Intent;
 import android.database.Cursor;
-import android.view.Menu;
+import android.database.sqlite.SQLiteDatabase;
+//import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+//import android.view.ContextMenu;
+//import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TableRow;
-import android.widget.TableLayout;
-import android.widget.TextView;
 import android.widget.ListView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.LayoutInflater;
+//import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+
+import com.pcpsoftware.tipped.database.DatabaseOpenHelper;
+import com.pcpsoftware.tipped.database.Shift;
+import com.pcpsoftware.tipped.database.ShiftTable;
+//import com.pcpsoftware.tipped.contentprovider.ShiftsContentProvider;
+//import com.pcpsoftware.tipped.contentprovider.TipContentProvider;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date; //for timestamp
 import java.util.Locale;
-import java.sql.Timestamp; //same as above
 
-import android.text.format.Time;
-import android.util.Log;
 
-public class MainView extends ListActivity {
+public class MainView extends FragmentActivity implements
+		LoaderCallbacks<Cursor> {
 	long shift;
-    ShiftListAdapter shiftAdapter;
+	private DatabaseOpenHelper dbOpenHelper;
+    private ShiftListAdapter shiftAdapter;
+//    private SimpleCursorAdapter adapter;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +65,9 @@ public class MainView extends ListActivity {
         
         // set up the ListView for shifts
         Tipped.getInstance().tipdb.open();
-        Cursor shiftCursor = Tipped.getInstance().tipdb.getAllShifts();
+//        Cursor shiftCursor = Tipped.getInstance().tipdb.getAllShifts();
        
-        startManagingCursor(shiftCursor);
+//        startManagingCursor(shiftCursor);
         //TODO: use cursorLoader
         
 //        shiftAdapter = new SimpleCursorAdapter(
@@ -74,11 +81,15 @@ public class MainView extends ListActivity {
 //        getListView().setOnItemClickListener(editShiftItemListener);
 //        getListView().setOnItemLongClickListener(longDeleteShiftItemListener);
         
-        shiftAdapter = new ShiftListAdapter(this, shiftCursor);
-        setListAdapter(shiftAdapter);
+//        shiftAdapter = new ShiftListAdapter(this, shiftCursor);
+//        setListAdapter(shiftAdapter);
         
         // set up itemClickListener for list items
-        getListView().setOnItemClickListener(editShiftItemListener);
+        ListView list = (ListView) findViewById(R.id.mainListView);
+        list.setOnItemClickListener(editShiftItemListener);
+        list.setOnItemLongClickListener(longDeleteShiftItemListener);
+        
+        fillData();
         
         //Set listeners for buttons
         mainShiftsTab.setOnClickListener(mainShiftsTabListener);
@@ -178,10 +189,14 @@ public class MainView extends ListActivity {
     		//get the shift id
     		Cursor c = (Cursor) parent.getItemAtPosition(position);
     		shift = c.getLong(c.getColumnIndex("_id"));
+    		//String[] projection = new String[] {ShiftTable.COLUMN_ID};
+    		//Cursor c = getContentResolver().query(ShiftsContentProvider.CONTENT_URI, projection, null, null, null);
     		
     		
     		// Launch shiftView
     		Intent shiftIntent = new Intent(MainView.this, ShiftView.class);
+//    		Uri shiftUri = Uri.parse(ShiftsContentProvider.CONTENT_URI + "/" + id);
+//    		shiftIntent.putExtra(ShiftsContentProvider.CONTENT_ITEM_TYPE, shiftUri);
     		shiftIntent.putExtra("shift_id", id); // this should, if I read it right, pass the shift id of the clicked shift and delete it
     		MainView.this.startActivity(shiftIntent);
     		
@@ -189,53 +204,114 @@ public class MainView extends ListActivity {
     	}
     };
     
-//    public OnItemLongClickListener longDeleteShiftItemListener = new OnItemLongClickListener() {
-//    	@Override
-//    	public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-//    		Cursor c = (Cursor) parent.getItemAtPosition(position);
-//    		shift = c.getLong(c.getColumnIndex("_id"));
-//    		
-//    		Shift s = new Shift();
-//    		s.setId(id);
-//    		
-//    		final long itemId = shift;
-//    		
-//    		AlertDialog.Builder builder = 
-//    				new AlertDialog.Builder(MainView.this);
-//    		builder.setTitle(R.string.delete_title);
-//    		builder.setMessage(R.string.delete_message);
-//    		
-//    		builder.setNegativeButton(R.string.cancel, null);
-//    		builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//				
-//    			final long idToRemove = itemId;
-//				@Override
-//				public void onClick(DialogInterface dialog, int which) {
-//					// TODO Auto-generated method stub
-//					Tipped.getInstance().tipdb.deleteShift(idToRemove);
-//					shiftAdapter.changeCursor(Tipped.getInstance().tipdb.getAllShifts());
-//					shiftAdapter.notifyDataSetChanged();
-//				}
-//			});
-//    		builder.show();
-//    		
-////    		LinearLayout shiftTableItem = (LinearLayout) v.getParent();
-////    		((ViewGroup) shiftTableItem.getParent()).removeView(shiftTableItem);
-//    		
-//    		//Tipped.getInstance().tipdb.deleteShift(id);	//remove shift from database
-//    		
-//    		return true;
-//    	}
-//    };
+    public OnItemLongClickListener longDeleteShiftItemListener = new OnItemLongClickListener() {
+    	@Override
+    	public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+    		
+    		Shift s = new Shift();
+    		s.setId(id);
+    		
+    		final long itemId = shift;
+    		
+    		AlertDialog.Builder builder = 
+    				new AlertDialog.Builder(MainView.this);
+    		builder.setTitle(R.string.delete_title);
+    		builder.setMessage(R.string.delete_message);
+    		
+    		builder.setNegativeButton(R.string.cancel, null);
+    		builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				
+    			final long idToRemove = itemId;
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					Tipped.getInstance().tipdb.deleteShift(idToRemove);
+					shiftAdapter.changeCursor(Tipped.getInstance().tipdb.getAllShifts());
+					shiftAdapter.notifyDataSetChanged();
+				}
+			});
+    		builder.show();
+    		
+//    		LinearLayout shiftTableItem = (LinearLayout) v.getParent();
+//    		((ViewGroup) shiftTableItem.getParent()).removeView(shiftTableItem);
+    		
+    		//Tipped.getInstance().tipdb.deleteShift(id);	//remove shift from database
+    		
+    		return true;
+    	}
+    };
     //***END LISTENER DEFINITIONS***
 
+    //  fills the list with data
+    private void fillData() {
+    	// Fields from the database (projection) must include 
+    	// the _id column for the adapter to work
+//    	String[] from = new String[] {ShiftTable.COLUMN_DATE, ShiftTable.COLUMN_TOTAL};
+    	// Fields on the UI to which we map
+//    	int[] to = new int[] {R.id.newShiftDateTextView, R.id.newShiftTotalTextView};
+    	
+    	getSupportLoaderManager().initLoader(0, null, this);
+//    	adapter = new SimpleCursorAdapter(this, R.layout.main_view_item, null, from, to, 0);
+    	shiftAdapter = new ShiftListAdapter(this, null);
+    	
+//    	setListAdapter(adapter);
+    }
+    
+    public static final class ShiftCursorLoader extends SimpleCursorLoader {
+    	private DatabaseOpenHelper mHelper;
+    	Context context;
+    	
+    	public ShiftCursorLoader(Context context, DatabaseOpenHelper helper) {
+    		super(context);
+    		mHelper = helper;
+    		this.context = context;
+    	}
+    	
+    	@Override
+    	public Cursor loadInBackground() {
+    		Cursor cursor = null;
+    		DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(context);
+    		SQLiteDatabase db = dbHelper.getReadableDatabase();
+    		
+    		cursor = db.query(ShiftTable.TABLE_SHIFT, new String[] {ShiftTable.COLUMN_DATE, ShiftTable.COLUMN_TOTAL}, null, null, null, null, null);
+    		
+    		return cursor;
+    	}
+    }
+    
+    /*Start Loader Classes */
+    // Creates a new loader after the initLoader() call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    	String[] projection = {ShiftTable.COLUMN_ID, ShiftTable.COLUMN_DATE, ShiftTable.COLUMN_TOTAL };
+//    	CursorLoader cursorLoader = new CursorLoader(this, 
+//    			ShiftsContentProvider.CONTENT_URI, projection, null, null, null);
+    	
+    	return new ShiftCursorLoader(this, null);
+//    	return cursorLoader;
+    }
+    
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    	shiftAdapter.swapCursor(data);
+    }
+    
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    	// Data is not available anymore, delete reference
+    	shiftAdapter.swapCursor(null);
+    }
+    /*End Loader Classes*/
+    
     // custom adapter to build the listview and interact with database
     public class ShiftListAdapter extends CursorAdapter {
     	private final LayoutInflater lInflater;
+    	private Context mContext;
     	
     	public ShiftListAdapter(Context context, Cursor c) {
     		super(context, c, false);
-    		lInflater = LayoutInflater.from(context);
+    		mContext = context;
+    		lInflater = LayoutInflater.from(mContext);
     	}
     	
     	@Override
@@ -283,7 +359,8 @@ public class MainView extends ListActivity {
     		
     		long time = cursor.getLong(cursor.getColumnIndex("time"));
 //    		int type = cursor.getInt(cursor.getColumnIndex("shift_type"));
-    		double shiftTotal = Tipped.getInstance().tipdb.getShiftTotal(cursor.getLong(cursor.getColumnIndex("_id")));
+//    		double shiftTotal = Tipped.getInstance().tipdb.getShiftTotal(cursor.getLong(cursor.getColumnIndex("_id")));
+    		double shiftTotal = cursor.getDouble(cursor.getColumnIndex(ShiftTable.COLUMN_TOTAL));
     		
     		Calendar calendar = Calendar.getInstance();
     		calendar.setTimeInMillis(time);

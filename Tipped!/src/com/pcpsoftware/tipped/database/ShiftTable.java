@@ -1,10 +1,8 @@
-package com.pcpsoftware.tipped;
+package com.pcpsoftware.tipped.database;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
+//import android.net.Uri;
 import android.util.Log;
-
-import com.pcpsoftware.tipped.providers.*;
 
 public class ShiftTable
 {
@@ -26,7 +24,7 @@ public class ShiftTable
 		+	TABLE_SHIFT
 		+ 	"("
 		+	COLUMN_ID + " integer primary key autoincrement, "
-		+	COLUMN_DATE + " long, "
+		+	COLUMN_DATE + " integer, "
 		+	COLUMN_TIME + " integer not null, "
 		+	COLUMN_SHIFT + " integer, "
 		+	COLUMN_TOTAL + " real not null, "

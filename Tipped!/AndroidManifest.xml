@@ -4,7 +4,7 @@
     android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <application
@@ -37,6 +37,14 @@
         <activity 
             android:name="com.pcpsoftware.tipped.TipEdit"
             android:label="@string/app_name"></activity>
-    </application>
+        <!-- @CONTENT_PROVIDERS
+        <provider 
+            android:name=".contentprovider.ShiftsContentProvider"
+            android:authorities="com.pcpsoftware.tipped.contentprovider" ></provider>
+        <provider
+            android:name=".contentprovider.TipContentProvider"
+            android:authorities="com.pcpsoftware.tipped.contentprovider" ></provider>
+        -->
+	</application>
 
 </manifest>

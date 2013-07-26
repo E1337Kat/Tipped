@@ -6,17 +6,23 @@ import java.util.ArrayList; //for getAllTip() and getAllShift() methods
 import java.util.Date;
 import java.util.List; //likewise
 import java.util.HashMap;
-import android.content.ContentProvider;
-import android.content.ContentUris;
+
+import com.pcpsoftware.tipped.database.Shift;
+import com.pcpsoftware.tipped.database.ShiftTable;
+import com.pcpsoftware.tipped.database.Tip;
+import com.pcpsoftware.tipped.database.TipTable;
+
+//import android.content.ContentProvider;
+//import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.UriMatcher;
+//import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.net.Uri;
+//import android.net.Uri;
 import android.util.Log;
 
 public class DatabaseConnector {

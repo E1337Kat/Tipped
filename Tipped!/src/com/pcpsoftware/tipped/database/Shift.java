@@ -1,6 +1,6 @@
 //Note: I'm not sure yet if it's going to be a better idea to use this class or just work with
 //DatabaseConnector directly, but here it is anyway just in case
-package com.pcpsoftware.tipped;
+package com.pcpsoftware.tipped.database;
 
 import java.util.Date; //for timestamp
 import java.sql.Timestamp; //same as above

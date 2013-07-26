@@ -38,6 +38,8 @@ import java.util.Calendar;
 import java.util.Date; //for timestamp
 import java.sql.Timestamp; //same as above
 
+import com.pcpsoftware.tipped.database.Tip;
+
 public class ShiftView extends ListActivity //implements LoaderCallbacks<Cursor> 
 {
 	double newTip;
